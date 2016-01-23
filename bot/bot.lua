@@ -4,7 +4,6 @@ package.cpath = package.cpath .. ';.luarocks/lib/lua/5.2/?.so'
 
 require("./bot/utils")
 
-local f = assert(io.popen('/usr/bin/git describe --tags', 'r'))
 VERSION = assert(f:read('*a'))
 f:close()
 
@@ -15,6 +14,7 @@ function on_msg_receive (msg)
   end
 
   local receiver = get_receiver(msg)
+  print (receiver)
 
   -- vardump(msg)
   msg = pre_process_service_msg(msg)
@@ -26,6 +26,20 @@ function on_msg_receive (msg)
     end
   end
 end
+
+
+ --vardump(msg)
+  msg = pre_process_service_msg(msg)
+  if msg_valid(msg) then
+    msg = pre_process_msg(msg)
+    if msg then
+      match_plugins(msg)
+  --   mark_read(receiver, ok_cb, false)
+    end
+  end
+end
+
+
 
 function ok_cb(extra, success, result)
 end
